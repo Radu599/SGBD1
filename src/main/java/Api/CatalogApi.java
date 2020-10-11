@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/catalog")
+// FIXME: This application has no explicit mapping for /error, so you are seeing this as a fallback.
 public class CatalogApi {
 
     private final Logger logger = LogManager.getLogger(CatalogApi.class);
@@ -45,6 +46,8 @@ public class CatalogApi {
         logger.info("LOG FINISH - dropDatabase");
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    // TODO: add saveTable, drop table
 
     @ExceptionHandler()
     @ResponseBody
