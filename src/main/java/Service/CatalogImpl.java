@@ -1,5 +1,7 @@
 package Service;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,6 +19,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import Constants.XMLConstants;
 
+@org.springframework.stereotype.Service
+@Primary
+@Component
 public class CatalogImpl implements Catalog {
 
     public static final String FILE_NAME = "Catalog.xml";
