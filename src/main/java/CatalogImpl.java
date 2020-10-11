@@ -1,5 +1,3 @@
-
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,31 +12,29 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 import java.io.IOException;
 
 public class CatalogImpl implements Catalog {
 
-    private static final String FILE_NAME = "Catalog.xml";
+    public static final String FILE_NAME = "Catalog.xml";
     public static final String DATABASE_TAG = "Database";
-    public static  final String NAME_TAG="name";
-    public static  final String DATABASES_TAG="Databases";
-    DocumentBuilderFactory dbFactory;
-    DocumentBuilder dBuilder;
-    Document doc;
+    public static final String NAME_TAG = "name";
+    public static final String DATABASES_TAG = "Databases";
 
-    Node databasesElement;
-
+    private DocumentBuilderFactory dbFactory;
+    private DocumentBuilder dBuilder;
+    private Document doc;
+    private Node databasesElement;
 
     public CatalogImpl() {
 
         this.loadXML();
-       // databasesElement = (Element) doc.getElementsByTagName(DATABASES_TAG).item(0);
-
-        databasesElement=doc.getFirstChild();
-
+        databasesElement = doc.getFirstChild();
     }
 
+    /**
+     * This function loads xml into doc
+     */
     public void loadXML() {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
@@ -56,6 +52,10 @@ public class CatalogImpl implements Catalog {
         }
     }
 
+    /**
+     * @param dbName - name of the db node you want to insert
+     *               TODO: validate name for duplicates
+     */
     public void saveDatabase(String dbName) {
 
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -67,20 +67,9 @@ public class CatalogImpl implements Catalog {
             e.printStackTrace();
         }
 
-        Document doc = documentBuilder.newDocument();
-
         Element databaseElement = doc.createElement(DATABASE_TAG);
-        doc.appendChild(databaseElement);
-        databaseElement.setAttribute(NAME_TAG,dbName);
-
-//        databasesElement.appendChild(databaseElement);
-        Element root = doc.createElement("company");
-        doc.appendChild(root);
-
-        // employee element
-        Element employee = doc.createElement("employee");
-
-        root.appendChild(employee);
+        databaseElement.setAttribute(NAME_TAG, dbName);
+        databasesElement.appendChild(databaseElement);
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = null;
@@ -92,19 +81,12 @@ public class CatalogImpl implements Catalog {
         DOMSource domSource = new DOMSource(doc);
         StreamResult streamResult = new StreamResult(FILE_NAME);
 
-        // If you use
-        // StreamResult result = new StreamResult(System.out);
-        // the output will be pushed to the standard output ...
-        // You can use that for debugging
-
         try {
             transformer.transform(domSource, streamResult);
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-
     }
-
 
 
     public void dropDatabase(String dbName) {

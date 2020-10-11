@@ -1,0 +1,22 @@
+
+
+java:S1186+"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ĞÉÓ8©Èÿ¶Ñ.
+F
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8‡£··Ñ.
+
+java:S1186/"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹ÉáÌ8©Èÿ¶Ñ.
+£
+java:S11863"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‰Ì¼Èÿÿÿÿÿ8©Èÿ¶Ñ.
+E
+java:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8ß„·Ñ.
+O
+java:S1172""-Remove this unused method parameter "dbName".(ø–å´ıÿÿÿÿ8‚¤†·Ñ.
+]	java:S125'"<This block of commented-out lines of code should be removed.(÷¹­áùÿÿÿÿ8äì­·Ñ.
+J
+java:S2755"-Disable XML external entity (XXE) processing.(»‹¡·8©Èÿ¶Ñ.
+O
+java:S1068"-Remove this unused "FILE_NAME" private field.(İØÅİûÿÿÿÿ8‡£··Ñ.
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ò¼•H8ÍË¶·Ñ.
+0
+java:S1220""Move this file to a named package.
