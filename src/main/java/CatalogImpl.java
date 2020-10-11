@@ -1,6 +1,7 @@
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -58,19 +59,41 @@ public class CatalogImpl implements Catalog {
      */
     public void saveDatabase(String dbName) {
 
-        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-
-        DocumentBuilder documentBuilder = null;
-        try {
-            documentBuilder = documentFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
-
         Element databaseElement = doc.createElement(DATABASE_TAG);
         databaseElement.setAttribute(NAME_TAG, dbName);
         databasesElement.appendChild(databaseElement);
 
+        submitChangesToFile();
+    }
+
+    /**
+     * @param dbName
+     * TODO: not found
+     */
+    public void dropDatabase(String dbName) {
+
+        Element dbElem = (Element)this.databasesElement;
+        NodeList nodeList = doc.getElementsByTagName(DATABASE_TAG);
+
+        for(int i=0; i<nodeList.getLength(); i++){
+            Element currentElement = (Element)nodeList.item(i);
+            if(currentElement.getAttribute(NAME_TAG).equals(dbName)){
+                currentElement.getParentNode().removeChild(currentElement);
+            }
+        }
+
+        submitChangesToFile();
+    }
+
+    public void saveTable(String dbName, String tableName) {
+
+    }
+
+    public void dropTable(String dbName, String tableName) {
+
+    }
+
+    private void submitChangesToFile() {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = null;
         try {
@@ -86,18 +109,5 @@ public class CatalogImpl implements Catalog {
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void dropDatabase(String dbName) {
-
-    }
-
-    public void saveTable(String dbName, String tableName) {
-
-    }
-
-    public void dropTable(String dbName, String tableName) {
-
     }
 }
