@@ -26,4 +26,12 @@ public class XMLConstants {
     public static final String TABLE_NAME_TAG = "tableName";
     public static final String FILE_NAME_TAG = "fileName";
     public static final String ROW_LENGTH_TAG = "rowLength";
+    public static final String ATTRIBUTE_NAME_TAG = "attributeName";
+    public static final String TYPE_TAG = "type";
+    public static final String LENGTH_TAG = "length";
+    public static final String IS_NULL_TAG = "isnull";
+    public static final String INDEX_NAME_TAG = "indexName";
+    public static final String KEY_LENGTH_TAG = "keyLength";
+    public static final String IS_UNIQUE_TAG = "isUnique";
+    public static final String INDEX_TYPE_TAG = "indexType";
 }

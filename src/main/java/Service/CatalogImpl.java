@@ -1,5 +1,6 @@
 package Service;
 
+import Model.Column;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -99,12 +100,55 @@ public class CatalogImpl implements Catalog {
      * @param fileName
      * @param rowLength
      */
-    public void saveTable(String dbName, String tableName, String fileName, String rowLength) {
+    public void saveTable(String dbName, String tableName, String fileName, String rowLength, Column... columns) {
 
         Element structureElement = doc.createElement(XMLConstants.STRUCTURE_TAG);
         Element primaryKeyElement = doc.createElement(XMLConstants.PRIMARY_KEY_TAG);
         Element uniqueKeysElement = doc.createElement(XMLConstants.UNIQUE_KEYS_TAG);
         Element indexFilesElement = doc.createElement(XMLConstants.INDEX_FILES_TAG);
+
+        for (Column column:
+             columns) {
+            Element columnElement = doc.createElement(XMLConstants.ATTRIBUTE_TAG);
+            columnElement.setAttribute(XMLConstants.ATTRIBUTE_NAME_TAG, column.getAttributeName());
+            columnElement.setAttribute(XMLConstants.TYPE_TAG, column.getType());
+            columnElement.setAttribute(XMLConstants.LENGTH_TAG, String.valueOf(column.getLength()));
+            columnElement.setAttribute(XMLConstants.IS_NULL_TAG, String.valueOf(column.isNull()));
+
+            structureElement.appendChild(columnElement);
+
+            if(column.isPrimaryKey()){
+                Element pkAttributeElement = doc.createElement(XMLConstants.PRIMARY_KEY_ATTRIBUTE_TAG);
+                pkAttributeElement.setTextContent(column.getAttributeName());
+
+                primaryKeyElement.appendChild(pkAttributeElement);
+            }
+
+            if(column.isUniqueKey()){
+                Element uniqueAttributeElement = doc.createElement(XMLConstants.UNIQUE_ATTRIBUTE_TAG);
+                uniqueAttributeElement.setTextContent(column.getAttributeName());
+
+                uniqueKeysElement.appendChild(uniqueAttributeElement);
+            }
+
+            if(column.isHasIndex()){ // TODO: can indexes be composite? if so in this if we have to add an other if so we don't duplicate <IndexFile> but group them under same tag
+                Element indexFileElement = doc.createElement(XMLConstants.INDEX_FILES_TAG);
+                indexFileElement.setAttribute(XMLConstants.INDEX_NAME_TAG, column.getIndexName());
+                indexFileElement.setAttribute(XMLConstants.KEY_LENGTH_TAG, String.valueOf(column.getKeyLength()));
+                indexFileElement.setAttribute(XMLConstants.IS_UNIQUE_TAG, String.valueOf(column.isUnique()));
+                indexFileElement.setAttribute(XMLConstants.INDEX_TYPE_TAG, column.getIndexType());
+
+                indexFilesElement.appendChild(indexFileElement);
+
+                Element indexAttributes = doc.createElement(XMLConstants.INDEX_ATTRIBUTES_TAG);
+                indexFileElement.appendChild(indexAttributes);
+
+                Element iAttributeElement = doc.createElement(XMLConstants.I_ATTRIBUTE_TAG);
+                iAttributeElement.setTextContent(column.getIndexName());
+
+                indexAttributes.appendChild(iAttributeElement);
+            }
+        }
 
         Element tableElement = doc.createElement(XMLConstants.TABLE_TAG);
         tableElement.setAttribute(XMLConstants.TABLE_NAME_TAG, tableName);

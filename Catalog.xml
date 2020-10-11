@@ -1,8 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Databases>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Databases>
 
     <DataBase name="Radu">
         <Tables>
-            
+            <Table fileName="table.txt" rowLength="12" tableName="mytable">
+                <Structure>
+                    <Attribute attributeName="Specid" isnull="false" length="20" type="string"/>
+                    <Attribute attributeName="text" isnull="false" length="20" type="string"/>
+                </Structure>
+                <primaryKey>
+                    <pkAttribute>Specid</pkAttribute>
+                </primaryKey>
+                <uniqueKeys>
+                    <UniqueAttribute>Specid</UniqueAttribute>
+                    <UniqueAttribute>text</UniqueAttribute>
+                </uniqueKeys>
+                <IndexFiles>
+                    <IndexFiles indexName="SpecIdIndex" indexType="BTree" isUnique="true" keyLength="22">
+                        <IndexAttributes>
+                            <IAttribute>SpecIdIndex</IAttribute>
+                        </IndexAttributes>
+                    </IndexFiles>
+                </IndexFiles>
+            </Table>
         </Tables>
     </DataBase>
 </Databases>
